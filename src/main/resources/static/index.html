@@ -30,12 +30,9 @@
                         @change="jobStatusChange(scope.row)"
                         size="mini"
                         v-model="scope.row.jobStatus"
-                        active-color="#13ce66"
-                        inactive-color="#ff4949"
-                        active-text="开启"
                         :active-value="1"
                         :inactive-value="0"
-                        inactive-text="禁用">
+                        >
                 </el-switch>
             </template>
         </el-table-column>

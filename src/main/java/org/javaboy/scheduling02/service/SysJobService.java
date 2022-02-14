@@ -7,8 +7,8 @@ import org.javaboy.scheduling02.model.SysJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author 江南一点雨
@@ -59,6 +59,10 @@ public class SysJobService {
     }
 
     public Boolean updateJob(SysJob sysJob) {
+        Optional<SysJob> one = sysJobRepository.findById(sysJob.getJobId());
+        if (one.isPresent() && one.get().getJobStatus() == 1) {
+            throw new IllegalArgumentException("正在运行的job无法更改");
+        }
         SysJob job = sysJobRepository.saveAndFlush(sysJob);
         if (job != null) {
             SchedulingRunnable schedulingRunnable = new SchedulingRunnable(sysJob.getBeanName(), sysJob.getMethodName(), sysJob.getMethodParams());
